@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лаба 4</title>
+    <style>
+        .task { border: 2px solid #ccc; padding: 20px; margin: 20px 0; }
+        .macros-box { border: 2px solid; padding: 10px; margin: 10px; }
+        .lab-title { color: #333; border-bottom: 3px solid; padding-bottom: 10px; }
+        .button {
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .button-primary { background: #4CAF50; color: white; }
+        .button-secondary { background: #2196F3; color: white; }
+        .button-light { background: #f0f0f0; color: black; }
+        .button-nav { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <!-- ===== ЛАБА 3: ВЫВОД ДАННЫХ С JINJA ===== -->
+    {% if task == 'lab3' or (r is defined or numbers is defined or val is defined) %}
+    <div class="lab-title" style="border-color: purple;">
+        <h1>Лаба 3: Вывод данных с Jinja</h1>
+    </div>
+
+    {# Задание 1 #}
+    {% if r is defined and pi is defined %}
+        <div class="task" style="border-color: blue;">
+            <h2>Задание 1: Площадь круга</h2>
+            <p>Радиус r = {{ r }}</p>
+            <p>π = {{ pi }}</p>
+            <p><strong>Площадь:</strong> S = π × r² = {{ pi }} × {{ r }}² = {{ pi * (r ** 2) }}</p>
+
+            <div class="button-nav">
+                <a href="/" class="button button-light">🏠 На главную</a>
+                <a href="/macros_test/" class="button button-secondary">🧩 К Лабе 4</a>
+                <a href="/circle_area/10.0/" class="button button-primary">📐 Другой радиус (10)</a>
+            </div>
+        </div>
+
+    {# Задание 2 #}
+    {% elif numbers is defined %}
+        <div class="task" style="border-color: green;">
+            <h2>Задание 2: Работа с кортежем</h2>
+            <p>Кортеж: {{ numbers }}</p>
+            <p>Первый элемент: {{ numbers[0] }}</p>
+            <p>Последний элемент: {{ numbers[-1] }}</p>
+            <p>Минимальное: {{ numbers|min }}</p>
+            <p>Максимальное: {{ numbers|max }}</p>
+            <p><strong>Результат:</strong>
+               ({{ numbers[0] }} + {{ numbers[-1] }}) - ({{ numbers|min }} + {{ numbers|max }}) =
+               {{ (numbers[0] + numbers[-1]) - (numbers|min + numbers|max) }}
+            </p>
+
+            <div class="button-nav">
+                <a href="/" class="button button-light">🏠 На главную</a>
+                <a href="/macros_test/" class="button button-secondary">🧩 К Лабе 4</a>
+                <a href="/round_number/3.14159/" class="button button-primary">🔢 К заданию 3</a>
+            </div>
+        </div>
+
+    {# Задание 3 #}
+    {% elif val is defined %}
+        <div class="task" style="border-color: orange;">
+            <h2>Задание 3: Округление числа</h2>
+            <p>Исходная строка: "{{ val }}"</p>
+            <p>Как число: {{ val|float }}</p>
+            <p><strong>Округлено до 1 знака:</strong> {{ val|float|round(1) }}</p>
+
+            <div class="button-nav">
+                <a href="/" class="button button-light">🏠 На главную</a>
+                <a href="/macros_test/" class="button button-secondary">🧩 К Лабе 4</a>
+                <a href="/tuple_calc/" class="button button-primary">📊 К заданию 2</a>
+                <a href="/round_number/1.618/" class="button">✨ Другое число (1.618)</a>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- ===== ЛАБА 4: СИНТАКСИЧЕСКИЕ КОНСТРУКЦИИ ===== -->
+    {% elif task == 'calc' or task == 'macros' %}
+    <div class="lab-title" style="border-color: red;">
+        <h1>Лаба 4: Синтаксические конструкции</h1>
+    </div>
+
+    {# ===== ЗАДАНИЕ 1: КАЛЬКУЛЯТОР ===== #}
+    {% if task == 'calc' %}
+    <div class="task" style="border-color: blue;">
+        <h2>Задание 1: Калькулятор (вычисления в шаблоне)</h2>
+        <p>Выражение: <strong>{{ a }} {{ op }} {{ b }}</strong></p>
+
+        {% if op == '+' %}
+            <p>Результат: {{ a + b }}</p>
+        {% elif op == '-' %}
+            <p>Результат: {{ a - b }}</p>
+        {% elif op == '*' %}
+            <p>Результат: {{ a * b }}</p>
+        {% elif op == ':' %}
+            {% if b == 0 %}
+                <p style="color: red;">Ошибка: деление на ноль!</p>
+            {% else %}
+                <p>Результат: {{ a / b }}</p>
+            {% endif %}
+        {% elif op == '**' %}
+            <p>Результат: {{ a ** b }}</p>
+        {% else %}
+            <p style="color: red;">Ошибка: неизвестная операция "{{ op }}"</p>
+        {% endif %}
+
+        <div class="button-nav">
+            <a href="/" class="button button-light">🏠 На главную</a>
+            <a href="/macros_test/" class="button button-secondary">🧩 К заданию 2</a>
+            <p style="margin-top: 10px;"><small>Другие примеры:
+                <a href="/calc/10/:/2/">10:2</a> |
+                <a href="/calc/5/:/0/">5:0 (ошибка)</a> |
+                <a href="/calc/7.5/+/2.0/">7.5+2.0</a>
+            </small></p>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ===== ЗАДАНИЕ 2: МАКРОСЫ ===== #}
+    {% if task == 'macros' %}
+    <div class="task" style="border-color: green;">
+        <h2>Задание 2: Макросы</h2>
+
+        {# Объявляем макросы #}
+        {% macro get_info(values, action, x, y) %}
+        <div class="macros-box" style="border-color: blue;">
+            <h3>Макрос get_info (всегда работает):</h3>
+            <p>Список values: {{ values }}</p>
+            <p>Действие action: {{ action }}</p>
+            <p>Число x: {{ x }}</p>
+            <p>Число y: {{ y }}</p>
+        </div>
+        {% endmacro %}
+
+        {% macro search_info(values, x, y) %}
+        <div class="macros-box" style="border-color: green;">
+            <h3>Макрос search_info (при search/find):</h3>
+            <p>Ищем в списке: {{ values }}</p>
+            <p>Вычисления: {{ x }} * {{ y }} = {{ x * y }}</p>
+        </div>
+        {% endmacro %}
+
+        {% macro validate_data(values, x, y) %}
+        <div class="macros-box" style="border-color: red;">
+            <h3>Макрос validate_data (в других случаях):</h3>
+            <p>Проверка данных:</p>
+            <ul>
+                <li>Количество элементов: {{ values|length }}</li>
+                <li>X положительное? {% if x > 0 %}Да{% else %}Нет{% endif %}</li>
+                <li>Y больше 0? {% if y > 0 %}Да{% else %}Нет{% endif %}</li>
+            </ul>
+        </div>
+        {% endmacro %}
+
+        {# Вызываем макросы #}
+        {{ get_info(values, action, x, y) }}
+
+        {% if action == "search" or action == "find" %}
+            {{ search_info(values, x, y) }}
+        {% else %}
+            {{ validate_data(values, x, y) }}
+        {% endif %}
+
+
+        <div class="button-nav">
+            <a href="/calc/7.5/+/2.0/" class="button button-primary">📟 К заданию 1</a>
+            <a href="/" class="button button-light">🏠 На главную</a>
+            <a href="/circle_area/5.0/" class="button button-secondary">📐 К Лабе 3</a>
+            <a href="/macros_test/" class="button" onclick="alert('Измени action в main.py на other и перезапусти сервер')">🔄 Переключить макрос</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endif %}
+
+    {# ===== ГЛАВНОЕ МЕНЮ (если ничего не выбрано) ===== #}
+    {% if not task and not r is defined and not numbers is defined and not val is defined %}
+    <div class="lab-title">
+        <h1>Фласк Лабы</h1>
+    </div>
+
+    <div class="task">
+        <h2>Лаба 3: Вывод данных с Jinja</h2>
+        <div style="margin-bottom: 15px;">
+            <a href="/circle_area/5.0/" class="button button-primary">📐 Задание 1</a>
+            <a href="/tuple_calc/" class="button button-primary">📊 Задание 2</a>
+            <a href="/round_number/3.14159/" class="button button-primary">🔢 Задание 3</a>
+        </div>
+        <ul>
+            <li><a href="/circle_area/5.0/">Задание 1: Площадь круга (радиус=5)</a></li>
+            <li><a href="/tuple_calc/">Задание 2: Работа с кортежем</a></li>
+            <li><a href="/round_number/3.14159/">Задание 3: Округление числа (3.14159)</a></li>
+        </ul>
+    </div>
+
+    <div class="task">
+        <h2>Лаба 4: Синтаксические конструкции</h2>
+
+        <div style="margin-bottom: 15px;">
+            <a href="/calc/7.5/+/2.0/" class="button button-primary">📟 Задание 1</a>
+            <a href="/macros_test/" class="button button-primary">🧩 Задание 2</a>
+        </div>
+
+        <ul>
+            <li><a href="/calc/7.5/+/2.0/">Задание 1: Калькулятор (7.5 + 2.0)</a></li>
+            <li><a href="/calc/10/:/2/">Задание 1: Калькулятор (10 : 2)</a></li>
+            <li><a href="/calc/5/:/0/">Задание 1: Деление на 0 (ошибка)</a></li>
+            <li><a href="/macros_test/">Задание 2: Макросы (action="search")</a></li>
+        </ul>
+    </div>
+
+    <div class="task">
+        <h3>Все лабы в одном месте:</h3>
+        <div>
+            <a href="/hello" class="button button-light">👋 Лаба 1 (Hello World)</a>
+            <a href="/another_page/" class="button button-light">📄 Лаба 1 (Другая страница)</a>
+            <a href="/contact/" class="button button-light">📞 Лаба 1 (Контакты)</a>
+            <a href="/calc/7.5/+/2.0/" class="button button-secondary">🧮 Лаба 4 (Калькулятор)</a>
+            <a href="/macros_test/" class="button button-secondary">⚙️ Лаба 4 (Макросы)</a>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>
